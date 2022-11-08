@@ -2,15 +2,23 @@ repos:
   - id: github.com/lhenn-au/atlantis-example
     apply_requirements: [approved, mergeable]
     workflow: myworkflow
+policies:
+  owners:
+    users:
+      - lhenn-au
+  policy_sets:
+    - name: example-conf-tests
+      path: /Users/laurahenn/repos/atlantis-example/policies
+      source: local
 workflows:
   myworkflow:
     plan:
       steps:
       - run: echo "dir is $DIR"
-      - run: git clone git@github.com:lhenn-au/atlantis-example.git || true
-      - run: pwd; ls
-      - run: echo "dir is $DIR"
-      - run: "$DIR/atlantis-example/my-custom-script.sh"
       - run: rm -rf .terraform || true
       - init
       - plan
+    policy_check:
+      steps:
+        - policy_check:
+            extra_args: ["-p /Users/laurahenn/repos/atlantis-example/policies", "--all-namespaces"]
