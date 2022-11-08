@@ -1,6 +1,7 @@
 package main
 
 import future.keywords.if
+import future.keywords.in
 
 null_resource_a if {
     some res in input.resource_changes
