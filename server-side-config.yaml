@@ -8,19 +8,21 @@ policies:
       - lhenn-au
   conftest_version: 0.35.0
   policy_sets:
-    - name: example-conf-tests
-      path: /Users/laurahenn/repos/atlantis-example/policies
+    - name: example-policies
+      path: /Users/laurahenn/atlantis-policy-test/policies
       source: local
 workflows:
   myworkflow:
     plan:
       steps:
-      # - run: echo "dir is $DIR"
-      # - run: rm -rf .terraform || true
       - init
       - plan
     policy_check:
       steps:
-        - show
-        - policy_check:
-            extra_args: ["-p /Users/laurahenn/repos/atlantis-example/policies/", "--all-namespaces"]
+        - env:
+            name: POLICY_DIR
+            command: 'echo "-p ../policies"'
+        - run: "$DIR/atlantis-example/pull-policies.sh"
+        - policy_check: 
+        # This would be replaeced with the same code
+            extra_args: ["/Users/laurahenn/atlantis-policy-test/policies", "--all-namespaces"]
