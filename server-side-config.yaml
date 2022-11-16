@@ -9,6 +9,7 @@ policies:
   conftest_version: 0.35.0
   policy_sets:
     - name: example-policies
+      # path on my local computer, in reality would be a some filepath in the container   
       path: /Users/laurahenn/atlantis-policy-test/policies
       source: local
 workflows:
@@ -20,9 +21,9 @@ workflows:
     policy_check:
       steps:
         - env:
-            name: POLICY_DIR
-            command: 'echo "-p ../policies"'
-        - run: "$DIR/atlantis-example/pull-policies.sh"
-        - policy_check: 
-        # This would be replaeced with the same code
-            extra_args: ["/Users/laurahenn/atlantis-policy-test/policies", "--all-namespaces"]
+            name: PULL_POLICY_SCRIPT
+            command: echo "$(git rev-parse --show-toplevel)/policies"
+        - run: "$PULL_POLICY_SCRIPT"
+        - run: echo "dir is now $(pwd)"
+        - show
+        - policy_check
