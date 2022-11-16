@@ -22,7 +22,7 @@ workflows:
       steps:
         - env:
             name: PULL_POLICY_SCRIPT
-            command: echo "$(git rev-parse --show-toplevel)/policies"
+            command: echo "$(git rev-parse --show-toplevel)/pull-policies.sh"
         - run: "$PULL_POLICY_SCRIPT"
         - run: echo "dir is now $(pwd)"
         - show
