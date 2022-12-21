@@ -2,9 +2,8 @@ repos:
   - id: github.com/lhenn-au/atlantis-example
     apply_requirements: [approved, mergeable]
     pre_workflow_hooks:
-        - run: ./repo-config-generator.sh
+        - run: $DIR/repo-config-generator.sh
     workflow: myworkflow
-    branch: /^lh\/atlantis-dev$/
 workflows:
   myworkflow:
     plan:
